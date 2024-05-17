@@ -58,7 +58,7 @@ const OrderStatus = () => {
     }
   };
   return (
-    <div>
+    <div className="mt-20">
       <h1>Order list</h1>
       <table>
         <thead>

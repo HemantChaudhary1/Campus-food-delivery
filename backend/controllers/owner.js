@@ -46,6 +46,7 @@ async function deleteDish(req, res) {
     for (const key in req.body) {
       if (key === "token") continue;
       const item = req.body[key];
+      console.log("delete",item);
       if (item.selected === true) {
         await Modeldish.deleteOne({ _id: item._id }); // Assuming each item has an _id field
       }
