@@ -119,22 +119,29 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios"; // Import Axios
 import OrderStatus from "./OrderStatus";
 import { authService } from "../services/authServices";
+import UserOrderStatus from "./UserOrderstatus";
 const Foodlist = () => {
   const { phone } = useParams();
   const [foodlist, setFoodlist] = useState([]);
   const [data, setData] = useState([]);
-
+  console.log("phone number of restaurant is ",phone);
+  console.log("food list is ",foodlist);
+  
   useEffect(() => {
     // Use Axios for fetching data
     axios
+      // .get(`http://localhost:8001/api/getAllDishes/${phone}`)
       .get(`http://localhost:8001/api/getAllDishes/${phone}`)
       .then((response) => {
         setData(response.data);
+        console.log("Response from ",response.data);
         const initializedFoodlist = response.data.map((item) => ({
           ...item,
           selected: false,
         }));
         setFoodlist(initializedFoodlist);
+        console.log("food list is now after setting ",foodlist);
+ 
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, [phone]);
@@ -185,7 +192,7 @@ const Foodlist = () => {
 
 return (
   <div className="mt-20">
-    <h1 className="text-2xl mb-4">Restaurant's Menu</h1>
+    <h1 className="text-2xl mb-4">Restaurant's Menuguidiqwv</h1>
     <table className="w-full mb-4">
       <thead>
         <tr className="bg-gray-200">
@@ -232,7 +239,8 @@ return (
     >
       Place order
     </button>
-    {/* <OrderStatus/> */} 
+    {/* <OrderStatus/>  */}
+    <UserOrderStatus/>
   </div>
 );
 };
