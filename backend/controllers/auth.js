@@ -17,7 +17,7 @@ async function verifyUser(req, res) {
     if (!auth) {
       return res.json({ message: "Incorrect password or email" });
     }
-    const token = createSecretToken(user._id, user.role, user.name,user.phone);
+    const token = createSecretToken(user._id, user.role, user.name, user.phone);
     res.cookie("token", token, {
       withCredentials: true,
       httpOnly: false,
@@ -32,7 +32,8 @@ async function verifyUser(req, res) {
 // signup
 async function signup(req, res) {
   try {
-    const { email, password, username, phone, role, createdAt } = req.body;
+    const { email, password, username, phone, role } = req.body;
+    console.log("data:",req.body);
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.json({ message: "User already exists" });
@@ -43,10 +44,14 @@ async function signup(req, res) {
       username,
       phone,
       role,
-      createdAt,
     });
     console.log("role", user.role);
-    const token = createSecretToken(user._id, user.role, user.username,user.phone);
+    const token = createSecretToken(
+      user._id,
+      user.role,
+      user.username,
+      user.phone
+    );
     res.cookie("token", token, {
       withCredentials: true,
       httpOnly: false,
@@ -72,7 +77,7 @@ async function login(req, res) {
     if (!auth) {
       return res.json({ message: "Incorrect password or email" });
     }
-    const token = createSecretToken(user._id, user.role, user.name,user.phone);
+    const token = createSecretToken(user._id, user.role, user.name, user.phone);
     res.cookie("token", token, {
       withCredentials: true,
       httpOnly: false,

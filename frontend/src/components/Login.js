@@ -90,9 +90,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    handleLogin();
-  }, []);
+  // useEffect(() => {
+  //   handleLogin();
+  // }, []);
 
   const handleLogin = async () => {
     try {
@@ -123,7 +123,7 @@ const Login = () => {
         {/* Email input */}
         <label className="block mb-2">Email</label>
         <input
-          className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4"
+          className="w-full border border-gray-300 text-black rounded-md px-3 py-2 mb-4"
           type="email"
           placeholder="Enter your email"
           value={email}
@@ -132,7 +132,7 @@ const Login = () => {
         {/* Password input */}
         <label className="block mb-2">Password</label>
         <input
-          className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4"
+          className="w-full border border-gray-300 text-black rounded-md px-3 py-2 mb-4"
           type="password"
           placeholder="Enter your password"
           value={password}

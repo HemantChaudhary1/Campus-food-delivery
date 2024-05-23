@@ -12,6 +12,10 @@ const OrderSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+  phr: {
+    required: true,
+    type: String,
+  },
   quantity: {
     required: true,
     type: Number,

@@ -4,7 +4,7 @@ const orderData = require("../models/orderData");
 async function getOrderResdetails(req, res) {
   try {
     const phone = req.user;
-    console.log("phone in getorder",phone);
+    console.log("phone in getorder", phone);
     const data = await orderData.find({ accept: false, ph: phone });
     console.log("get data:", data);
     res.json(data);
@@ -18,10 +18,10 @@ async function updateOrder(req, res) {
   try {
     res.setHeader("Access-Control-Allow-Origin", "*");
     // const { input } = req.query;
-    for (const key in req.body) {
-      if (key === "token") continue;
-      const item = req.body[key];
-      const r = await orderData.updateOne(
+    for (const key in req.body.foodlist) {
+      const item = req.body.foodlist[key];
+      //console.log("items", item);
+      const response = await orderData.updateOne(
         { _id: item._id },
         {
           $set: {
@@ -29,7 +29,6 @@ async function updateOrder(req, res) {
           },
         }
       );
-      console.log("response after update", item);
     }
     console.log("finally update", req.body);
     res.json(req.body);
@@ -46,7 +45,7 @@ async function deleteDish(req, res) {
     for (const key in req.body) {
       if (key === "token") continue;
       const item = req.body[key];
-      console.log("delete",item);
+      console.log("delete", item);
       if (item.selected === true) {
         await Modeldish.deleteOne({ _id: item._id }); // Assuming each item has an _id field
       }
