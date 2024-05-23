@@ -17,17 +17,27 @@ import Admin from "./components/Admin";
 import { AdminPrivateRoute } from "./routes/Adminroute";
 import { OwnerRoute } from "./routes/Ownerroute";
 import { UserRoute } from "./routes/Userroute";
+import HomePage from "./components/home";
+import UserProfile from "./components/userProfile";
+import Menu from "./components/Menu";
+import Dishes from "./components/Dishes";
+
 function App() {
-  const isLoggedIn = true; // Replace with your actual authentication logic
   return (
     <div className="App">
       <Navbar />
+  
       <Routes>
         {/* Use Routes to wrap Route components */}
+        {/* Route for Home */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/dishes/:phone" element={<Dishes />} />
+                         
         {/* Route for Login */}
         <Route path="/Login" element={<Login />} />
         {/* Route for Register, conditionally rendered based on isLoggedIn */}
-        {isLoggedIn && <Route path="/Register" element={<Register />} />}
+        <Route path="/Register" element={<Register />} />
 
         <Route
           path="/Restorent"
@@ -71,6 +81,13 @@ function App() {
             <OwnerRoute>
               <ResOwner />{" "}
             </OwnerRoute>
+          }
+        />
+        <Route
+          
+          path="userProfile"
+          element={
+            <UserProfile/>
           }
         />
 

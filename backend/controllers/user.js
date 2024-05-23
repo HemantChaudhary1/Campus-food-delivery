@@ -49,12 +49,15 @@ async function sendOrder(req, res) {
   }
 }
 async function getAllDishes(req, res) {
+  console.log("HELLO FROM GETALLDISHES")
   try {
     const { phone } = req.params;
     // const { input } = req.query;
     const data = await Modeldish.find({ ph: phone });
+    console.log("HERE IS THE DISHES : ", JSON.stringify(data));
     res.json(data);
   } catch (error) {
+    console.log("ERROR WHILE SERVING DISHES : ", error)
     res.status(500).json({ message: error.message });
   }
 }
@@ -82,7 +85,9 @@ async function getType(req, res)
 async function getOrderdetails(req, res) {
   try {
     const phone = req.user;
+    console.log("USER: " + phone);
     const data = await orderData.find({ accept: true, ph: phone });
+    console.log("USER CONFIRMED ORDERS : " + JSON.stringify(data));
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
