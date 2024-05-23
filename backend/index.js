@@ -7,7 +7,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 
 mongoose
-  .connect("mongodb+srv://HemantChaudhary1:Hemant2025@clusternitaolx.obrbgw3.mongodb.net/Fooddata", {})
+  .connect("mongodb+srv://hemuchoudhary231:Hemant231@cluster0.uyzk45x.mongodb.net", {})
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error(err));
 app.use(cors());

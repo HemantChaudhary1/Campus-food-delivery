@@ -119,7 +119,7 @@ const Login = () => {
   return (
     <div className="h-screen flex flex-col justify-center items-center">
       <h1 className="text-4xl mb-8">User Login Portal</h1>
-      <div className="bg-white p-6 rounded-lg shadow-md w-80">
+      <div className="bg-slate-700 p-6 rounded-lg shadow-md w-80">
         {/* Email input */}
         <label className="block mb-2">Email</label>
         <input

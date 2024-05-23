@@ -143,9 +143,9 @@ const Register = () => {
 
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center">
+    <div className="h-screen flex flex-col justify-center items-center mt-16">
       <h1 className="text-4xl mb-8">User Registration Portal</h1>
-      <div className="bg-white p-6 rounded-lg shadow-md w-80">
+      <div className="bg-slate-700 p-6 rounded-lg shadow-md w-80">
         {/* Name input */}
         <label className="block mb-2">Name:</label>
         <input
@@ -199,7 +199,7 @@ const Register = () => {
           Register
         </button>
         {/* Login link */}
-        <Link to="" className="mt-4 block text-center text-blue-500 underline">
+        <Link to="/Login" className="mt-4 block text-center text-blue-500 underline">
           Login
         </Link>
       </div>

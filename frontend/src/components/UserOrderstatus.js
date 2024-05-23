@@ -10,6 +10,7 @@ const UserOrderStatus = () => {
   }, []);
   const Orders = async () => {
     const token = authService.getToken();
+    console.log("Token for user is ", token);
     axios
       .get("http://localhost:8001/api/userOrder", {
         headers: {
@@ -18,6 +19,7 @@ const UserOrderStatus = () => {
       })
       .then((response) => {
         setData(response.data);
+        console.log("User Order Data ", response);
         const initializedFoodlist = response.data.map((item) => ({
           dishName: item.dishName,
           quantity: item.quantity,
