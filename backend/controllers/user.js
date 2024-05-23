@@ -69,6 +69,16 @@ async function getAllOrder(req, res) {
   }
 }
 
+async function getType(req, res)
+{
+    try {
+        // typeofdish - 1 ,2
+        const data= await orderData.find();
+    } catch (error) {
+      
+    }
+}
+
 async function getOrderdetails(req, res) {
   try {
     const phone = req.user;

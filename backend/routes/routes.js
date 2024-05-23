@@ -3,6 +3,7 @@ const Admin = require("../controllers/admin");
 const Owner = require("../controllers/owner");
 const User = require("../controllers/user");
 const auth = require("../controllers/auth");
+const { check, validationResult } = require("express-validator");
 const express = require("express");
 const cors = require("cors");
 const {
@@ -24,7 +25,24 @@ router.post("/deletedishes", verifyowner, Owner.deleteDish);
 router.post("/updateOrder", verifyowner, Owner.updateOrder);
 router.get("/ResOrder", verifyowner, Owner.getOrderResdetails);
 //auth
-router.post("/signup", auth.signup);
+router.post(
+  "/signup",
+  check("username", "Name is required").notEmpty(),
+  check("email", "email is required").isEmail(),
+  check(
+    "password",
+    "Please enter a password with 6 or more characters"
+  ).isLength({ min: 6 }),
+  check("phone", "phone is required").isLength({ min: 10, max: 10 }),
+  check("role", "role is required").notEmpty(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+  },
+  auth.signup
+);
 router.post("/login", auth.login);
 router.post("/auth", verifyuser, auth.verifyUser);
 //User
