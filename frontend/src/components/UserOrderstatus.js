@@ -12,7 +12,7 @@ const UserOrderStatus = () => {
     const token = authService.getToken();
     console.log("Token for user is ", token);
     axios
-      .get("http://localhost:8001/api/userOrder", {
+      .get("https://campus-food-delivery.onrender.com/api/userOrder", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

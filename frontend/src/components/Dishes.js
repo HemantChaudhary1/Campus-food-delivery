@@ -1,38 +1,3 @@
-// import React from 'react'
-
-// const Dishes = () => {
-  
-//     return (
-//         <div className="container mx-auto mt-20 p-6 text-white">
-//           <h1 className="text-3xl font-bold mb-6">Restaurant's List</h1>
-//           <table className="w-full mb-6 border-collapse bg-gray-800">
-//             <thead>
-//               <tr>
-//               <th className="p-2">Dish Name</th>
-//               <th className="p-2">Dish Price</th>
-//               <th className="p-2">Contact Info</th>
-//               <th className="p-2">Quantity</th>
-//              <th className="p-2">Select</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//                 <tr className="hover:bg-gray-700">
-//                   <td className="border border-gray-700 px-4 py-2">Mango</td>
-//                   <td className="border border-gray-700 px-4 py-2">900</td>
-//                   <td className="border border-gray-700 px-4 py-2">90293</td>
-//                   <td className="border border-gray-700 px-4 py-2">
-
-//                     <button>Select</button>
-//                   </td>
-//                 </tr>
-//             </tbody>
-//           </table>
-//         </div>
-//       );
-// }
-
-// export default Dishes
-
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
