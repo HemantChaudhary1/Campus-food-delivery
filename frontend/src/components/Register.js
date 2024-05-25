@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-
+import { authService } from "../services/authServices";
 const Register = () => {
   const navigate = useNavigate();
   const [username, setName] = useState("");
@@ -12,30 +13,37 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post("https://campus-food-delivery.onrender.com/api/signup", {
-        username,
-        email,
-        phone,
-        password,
-        role,
-      });
-      console.log("Successfully registered");
-      console.log("Role:", response.data.user.role);
-      console.log("Response:", JSON.stringify(response));
-      if (response.data.user.role === "admin") {
-        navigate("/admin");
-      } else if (response.data.user.role === "owner") {
-        navigate(`/ResDetails/${phone}`);
-      } else if (response.data.user.role === "user") {
-        console.log("User registered");
-        navigate("/Restorent");
+      const response = await axios.post(
+        "https://campus-food-delivery.onrender.com/api/signup",
+        {
+          username,
+          email,
+          phone,
+          password,
+          role,
+        }
+      );
+      // console.log("Successfully registered");
+      const user = response.data.user.role;
+      const token = response.data.token;
+      const userid = response.data.user.phone;
+      toast.info("User Registered Successfully");
+      if (token) {
+        authService.setToken(token);
+        if (user === "admin") {
+          navigate("/admin");
+        } else if (user === "user") {
+          navigate("/Restorent");
+        } else if (user === "owner") {
+          navigate(`/ResDetails/${userid}`);
+        }
       } else {
-        console.log("No user found");
+        toast.error("User Not Registered");
       }
     } catch (error) {
+      toast.error("User Not Registered");
       console.log(error);
     }
-    console.log("Register clicked");
   };
 
   return (

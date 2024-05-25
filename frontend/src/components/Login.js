@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { authService } from "../services/authServices";
-
+import { toast } from "react-toastify";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,11 +15,15 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const userData = { email, password };
-      const response = await axios.post("https://campus-food-delivery.onrender.com/api/login", userData);
+      const response = await axios.post(
+        "https://campus-food-delivery.onrender.com/api/login",
+        userData
+      );
       const user = response.data.user.role;
       const token = response.data.token;
       const userid = response.data.user.phone;
       if (token) {
+        toast.info("User Logged in Successfully");
         authService.setToken(token);
         if (user === "admin") {
           navigate("/admin");
@@ -28,8 +32,11 @@ const Login = () => {
         } else if (user === "owner") {
           navigate(`/ResDetails/${userid}`);
         }
+      } else {
+        toast.error("Incorrect Username/Password");
       }
     } catch (error) {
+      toast.error("Invalid Username");
       console.log(error);
     }
   };
@@ -75,4 +82,3 @@ const Login = () => {
 };
 
 export default Login;
-

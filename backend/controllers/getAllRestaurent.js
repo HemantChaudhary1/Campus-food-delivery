@@ -77,7 +77,7 @@ async function verifyUser(req, res) {
     });
     return res.status(200).json({ user, token });
     // res.json(token);
-    console.log(user);
+    //console.log(user);
   } catch (error) {
     return res.json(error);
   }
@@ -98,7 +98,7 @@ async function signup(req, res) {
       role,
       createdAt,
     });
-    console.log("role", user.role);
+    //console.log("role", user.role);
     const token = createSecretToken(user._id, user.role, user.username);
     res.cookie("token", token, {
       withCredentials: true,
@@ -132,7 +132,7 @@ async function login(req, res) {
     });
     return res.status(200).json({ user, token });
     // res.json(token);
-    console.log(user);
+    //console.log(user);
   } catch (error) {
     return res.json(error);
   }
@@ -165,7 +165,7 @@ async function sendOrder(req, res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     const dataToSave = await Promise.all(
       req.body.map(async (item) => {
-        console.log(item);
+        //console.log(item);
         const data = new orderData({
           dishName: item.dishName,
           dishPrice: item.dishPrice,
@@ -176,7 +176,7 @@ async function sendOrder(req, res) {
         return await data.save();
       })
     );
-    console.log("dataTsave: ", dataToSave);
+    //console.log("dataTsave: ", dataToSave);
     res.status(200).json(dataToSave);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -184,7 +184,7 @@ async function sendOrder(req, res) {
 }
 
 async function deleteDish(req, res) {
-  console.log(req.body);
+  //console.log(req.body);
   try {
     res.setHeader("Access-Control-Allow-Origin", "*");
     // Assuming req.body is an array of items
@@ -226,7 +226,7 @@ async function deleteRes(req, res) {
 
     res.status(200).json({ message: "Restaurants deleted successfully" });
   } catch (error) {
-    console.error(error);
+   // console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 }

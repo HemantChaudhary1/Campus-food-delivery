@@ -4,13 +4,14 @@ import { authService } from "../services/authServices";
 const UserOrderStatus = () => {
   const [foodlist, setFoodlist] = useState([]);
   const [data, setData] = useState([]);
+  const [RestName, setRestName] = useState("");
   useEffect(() => {
     // Use Axios for fetching data
     Orders();
   }, []);
   const Orders = async () => {
     const token = authService.getToken();
-    console.log("Token for user is ", token);
+    //console.log("Token for user is ", token);
     axios
       .get("https://campus-food-delivery.onrender.com/api/userOrder", {
         headers: {
@@ -19,7 +20,7 @@ const UserOrderStatus = () => {
       })
       .then((response) => {
         setData(response.data);
-        console.log("User Order Data ", response);
+       // console.log("User Order Data ", response);
         const initializedFoodlist = response.data.map((item) => ({
           _id: item._id,
           dishName: item.dishName,
@@ -53,7 +54,9 @@ const UserOrderStatus = () => {
               <td className="border border-gray-700 px-4 py-2">
                 {item.quantity}
               </td>
-              <td className="border border-gray-700 px-4 py-2">{item.price}</td>
+              <td className="border border-gray-700 px-4 py-2">
+                {item.price * item.quantity}
+              </td>
               <td className="border border-gray-700 px-4 py-2">
                 Item will be delivered in the next 30 minutes.
               </td>

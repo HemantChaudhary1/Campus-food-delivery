@@ -5,97 +5,110 @@ import OrderStatus from "./OrderStatus";
 import { authService } from "../services/authServices";
 
 const ResOwner = () => {
-    const { phone } = useParams();
-    const [foodlist, setFoodlist] = useState([]);
-    const [data, setData] = useState([]);
-    const [dishName, setName] = useState("");
-    const [dishPrice, setPrice] = useState();
-    const [ph, setResid] = useState();
-    console.log("Phone number: ", phone);
-    console.log("Numbe of phone is ",phone);
-    useEffect(() => {
-      // Use Axios for fetching data
-      axios
-        .get(`https://campus-food-delivery.onrender.com/api/getAllDishes/${phone}`)
-        .then((response) => {
-          setData(response.data);
-          console.log("data",response.data);
-          const initializedFoodlist = response.data.map((item) => ({
-            ...item,
-            selected: false,
-          }));
-          setFoodlist(initializedFoodlist);
-        })
-        .catch((error) => console.error("Error fetching data:", error));
-    }, []);
-  
-    const handleDishSelection = (index) => {
-      const updatedFoodlist = [...foodlist];
-      updatedFoodlist[index].selected = !updatedFoodlist[index].selected;
-      console.log("update data",updatedFoodlist);
-      setFoodlist(updatedFoodlist);
-    };
-  
-    const handleDeleteDish = async () => {
-      try {
-        // console.log("item-selected");
-        const selectedItems = foodlist.filter((item) => item.selected);
-        console.log("data",selectedItems);
-        const token = authService.getToken();
-        
-        // Extract only the IDs of selected dishes for deletion
-        //const dishIDsToDelete = selectedItems.map((item) => item.id);
-        
-        const requestData = {
-          ...selectedItems,
+  const { phone } = useParams();
+  const [foodlist, setFoodlist] = useState([]);
+  const [data, setData] = useState([]);
+  const [dishName, setName] = useState("");
+  const [dishPrice, setPrice] = useState();
+  const [ph, setResid] = useState();
+  //console.log("Phone number: ", phone);
+  //console.log("Numbe of phone is ", phone);
+  useEffect(() => {
+    // Use Axios for fetching data
+    axios
+      .get(
+        `https://campus-food-delivery.onrender.com/api/getAllDishes/${phone}`
+      )
+      .then((response) => {
+        setData(response.data);
+        //console.log("data", response.data);
+        const initializedFoodlist = response.data.map((item) => ({
+          ...item,
+          selected: false,
+        }));
+        setFoodlist(initializedFoodlist);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
+  const handleDishSelection = (index) => {
+    const updatedFoodlist = [...foodlist];
+    updatedFoodlist[index].selected = !updatedFoodlist[index].selected;
+    //console.log("update data", updatedFoodlist);
+    setFoodlist(updatedFoodlist);
+  };
+
+  const handleDeleteDish = async () => {
+    try {
+      // console.log("item-selected");
+      const selectedItems = foodlist.filter((item) => item.selected);
+      //console.log("data", selectedItems);
+      const token = authService.getToken();
+
+      // Extract only the IDs of selected dishes for deletion
+      //const dishIDsToDelete = selectedItems.map((item) => item.id);
+
+      const requestData = {
+        ...selectedItems,
+        token,
+      };
+      const deldata = JSON.stringify(requestData);
+      //console.log("req", requestData);
+      const response = await axios.post(
+        "https://campus-food-delivery.onrender.com/api/deletedishes",
+        requestData
+      );
+
+      //console.log("Response from backend:", response.data);
+
+      // Update foodlist state to remove deleted dishes
+      // const updatedFoodlist = foodlist.filter(
+      //   (item) => !selectedItems.includes(item.id)
+      // );
+      // setFoodlist(updatedFoodlist);
+
+      // Optionally, you can also reset the selection
+      // setFoodlist((prevFoodlist) =>
+      //   prevFoodlist.map((item) => ({ ...item, selected: false }))
+      // );
+    } catch (error) {
+      console.error("Error deleting dishes:", error);
+    }
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const token = authService.getToken();
+      axios.post(
+        "https://campus-food-delivery.onrender.com/api/adddish",
+        {
+          dishName,
+          dishPrice,
+          ph,
           token,
-        };
-        const deldata = JSON.stringify(requestData);
-        console.log("req",requestData);
-        const response = await axios.post(
-          "https://campus-food-delivery.onrender.com/api/deletedishes",
-          requestData
-        );
-    
-        console.log("Response from backend:", response.data);
-        
-        // Update foodlist state to remove deleted dishes
-        // const updatedFoodlist = foodlist.filter(
-        //   (item) => !selectedItems.includes(item.id)
-        // );
-        // setFoodlist(updatedFoodlist);
-    
-        // Optionally, you can also reset the selection
-        // setFoodlist((prevFoodlist) =>
-        //   prevFoodlist.map((item) => ({ ...item, selected: false }))
-        // );
-      } catch (error) {
-        console.error("Error deleting dishes:", error);
-      }
-    };
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      try {
-        const token = authService.getToken();
-        axios.post(
-          "https://campus-food-delivery.onrender.com/api/adddish",
-          {
-            dishName,
-            dishPrice,
-            ph,
-            token,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      } catch (error) {}
-    };
+        }
+      );
+    } catch (error) {}
+  };
+  const handelMyorders = () => {
+    window.location.href = "/Orders";
+  };
   return (
     <div className="container mx-auto mt-20 p-6 text-white">
-      <h1 className="text-3xl font-bold mb-6">Food List</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold mb-6">Food List</h1>
+        <button
+          className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+          onClick={handelMyorders}
+        >
+          Check Orders
+        </button>
+      </div>
       <table className="w-full mb-6 border-collapse bg-gray-800">
         <thead>
           <tr>
@@ -135,6 +148,7 @@ const ResOwner = () => {
       >
         Delete Dishes
       </button>
+      <h1 className="text-2xl font-bold mb-10 mt-10">Add Dishes</h1>
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <input
           type="text"
@@ -164,7 +178,6 @@ const ResOwner = () => {
           Add Dish
         </button>
       </form>
-      <OrderStatus/>
     </div>
   );
 };

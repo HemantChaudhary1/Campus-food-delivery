@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import res1 from "../images/res1.jpg";
+import UserOrderStatus from "./UserOrderstatus";
 
 const RestaurantList = () => {
   const [restaurants, setRestaurants] = useState([]);
   const { phone } = useParams();
-  console.log("Phone number of restaurant is: ", phone);
+  //console.log("Phone number of restaurant is: ", phone);
   
   useEffect(() => {
     axios.get("https://campus-food-delivery.onrender.com/api/getAllRes")

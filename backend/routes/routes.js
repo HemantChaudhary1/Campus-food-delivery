@@ -56,6 +56,9 @@ router.post("/auth", verifyuser, auth.verifyUser);
 router.get("/allOrder", verifyuser, User.getAllOrder);
 router.post("/sendOrder", verifyuser, User.sendOrder);
 router.get("/userOrder", verifyuser, User.getOrderdetails);
+router.get("/restInfo", verifyuser, User.getAllRes);
+router.get("/userInfo/:phone", User.getUser);
+router.get("/alluser", User.getAllUser);
 // any one can view
 // All Restaurant Data
 router.get("/getAllRes", User.getAllRes);

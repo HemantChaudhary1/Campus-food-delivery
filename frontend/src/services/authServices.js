@@ -13,7 +13,7 @@ const getToken = () => {
 };
 
 const login = (userData) => {
-  console.log(axiosInstance);
+  //console.log(axiosInstance);
    return axiosInstance.post("/auth", userData);
 };
 
@@ -25,7 +25,14 @@ const getUserEmail = () => {
   }
   return null;
 };
-
+const getUserphone = () => {
+  const token = getToken();
+  if (token) {
+    const payLoad = jwtDecode(token);
+    return payLoad?.phone;
+  }
+  return null;
+};
 const getUserRole = () => {
   const token = getToken();
   if (token) {
@@ -55,5 +62,6 @@ export const authService = {
   login,
   getUserEmail,
   getUserRole,
+  getUserphone,
   isLoggedIn,
 };

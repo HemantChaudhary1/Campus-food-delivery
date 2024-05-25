@@ -8,8 +8,8 @@ const Foodlist = () => {
   const { phone } = useParams();
   const [foodlist, setFoodlist] = useState([]);
   const [data, setData] = useState([]);
-  console.log("phone number of restaurant is ", phone);
-  console.log("food list is ", foodlist);
+ // console.log("phone number of restaurant is ", phone);
+  // console.log("food list is ", foodlist);
 
   useEffect(() => {
     // Use Axios for fetching data
@@ -18,13 +18,13 @@ const Foodlist = () => {
       .get(`https://campus-food-delivery.onrender.com/api/getAllDishes/${phone}`)
       .then((response) => {
         setData(response.data);
-        console.log("Response from ", response.data);
+       // console.log("Response from ", response.data);
         const initializedFoodlist = response.data.map((item) => ({
           ...item,
           selected: false,
         }));
         setFoodlist(initializedFoodlist);
-        console.log("food list is now after setting ", foodlist);
+       // console.log("food list is now after setting ", foodlist);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, [phone]);
@@ -38,7 +38,7 @@ const Foodlist = () => {
   const handleDishSelection = (index) => {
     const updatedFoodlist = [...foodlist];
     updatedFoodlist[index].selected = !updatedFoodlist[index].selected;
-    console.log(updatedFoodlist);
+    //console.log(updatedFoodlist);
     setFoodlist(updatedFoodlist);
   };
 
@@ -52,7 +52,7 @@ const Foodlist = () => {
       };
       // Stringify the data and set the Content-Type header
       // const requestData = JSON.stringify(selectedItems);
-      console.log("Data for backend :", data);
+      // console.log("Data for backend :", data);
       // Use Axios for the POST request with proper headers
       const response = await axios.post(
         "https://campus-food-delivery.onrender.com/api/sendOrder",
@@ -64,7 +64,7 @@ const Foodlist = () => {
         }
       );
 
-      console.log("response :", response);
+      // console.log("response :", response);
     } catch (error) {
       console.error("Error placing order:", error);
     }
@@ -121,7 +121,6 @@ const Foodlist = () => {
         Place order
       </button>
       {/* <OrderStatus/>  */}
-      <UserOrderStatus/>
     </div>
   );
 };

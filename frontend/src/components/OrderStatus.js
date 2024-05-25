@@ -56,7 +56,7 @@ const OrderStatus = () => {
           },
         }
       );
-      console.log("order confirmed", response);
+     // console.log("order confirmed", response);
     } catch (error) {
       console.log("error", error);
     }

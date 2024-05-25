@@ -24,7 +24,7 @@ async function verifyUser(req, res) {
     });
     return res.status(200).json({ user, token });
     // res.json(token);
-    console.log(user);
+    // console.log(user);
   } catch (error) {
     return res.json(error);
   }
@@ -33,7 +33,7 @@ async function verifyUser(req, res) {
 async function signup(req, res) {
   try {
     const { email, password, username, phone, role } = req.body;
-    console.log("data:",req.body);
+    //console.log("data:", req.body);
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.json({ message: "User already exists" });
@@ -45,7 +45,7 @@ async function signup(req, res) {
       phone,
       role,
     });
-    console.log("role", user.role);
+    //console.log("role", user.role);
     const token = createSecretToken(
       user._id,
       user.role,
@@ -84,7 +84,7 @@ async function login(req, res) {
     });
     return res.status(200).json({ user, token });
     // res.json(token);
-    console.log(user);
+    //console.log(user);
   } catch (error) {
     return res.json(error);
   }

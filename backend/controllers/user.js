@@ -1,8 +1,40 @@
 const Model = require("../models/schema");
 const Modeldish = require("../models/dishes_schema");
 const orderData = require("../models/orderData");
+const User = require("../models/userRegistration");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+
+async function getRes(req, res) {
+  try {
+    const phone = req.user;
+    console.log("phone in backend", phone);
+    const restorentInfo = await Model.find({ ph: phone });
+    res.json(restorentInfo);
+  } catch (error) {
+    res.status(404).json({ message: "restaurant not found" });
+  }
+}
+async function getAllUser(req, res) {
+  try {
+    const Userinfo = await User.find({});
+    console.log("User details", Userinfo);
+    res.json(Userinfo);
+  } catch (error) {
+    res.status(404).json({ message: "restaurant not found" });
+  }
+}
+async function getUser(req, res) {
+  try {
+    const { phone } = req.params;
+    console.log("phone of user", phone);
+    const Userinfo = await User.find({ phone });
+    console.log("User details", Userinfo);
+    res.json(Userinfo);
+  } catch (error) {
+    res.status(404).json({ message: "restaurant not found" });
+  }
+}
 async function getAllRes(req, res) {
   try {
     // const { input } = req.query;
@@ -36,27 +68,12 @@ async function sendOrder(req, res) {
         console.log("saved order", savedData);
       }
     }
-    // const dataToSave = await Promise.all(
-    //   req.body.map(async (item) => {
-    //     console.log(item);
-    //     const data = new orderData({
-    //       dishName: item.dishName,
-    //       dishPrice: item.dishPrice,
-    //       ph: item.ph,
-    //       quantity: item.quantity,
-    //     });
-
-    //     return await data.save();
-    //   })
-    // );
-    // console.log("dataTsave: ");
     res.status(200).json("order sent succesfully");
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 }
 async function getAllDishes(req, res) {
-  console.log("HELLO FROM GETALLDISHES");
   try {
     const { phone } = req.params;
     // const { input } = req.query;
@@ -79,13 +96,6 @@ async function getAllOrder(req, res) {
   }
 }
 
-async function getType(req, res) {
-  try {
-    // typeofdish - 1 ,2
-    const data = await orderData.find();
-  } catch (error) {}
-}
-
 async function getOrderdetails(req, res) {
   try {
     const phone = req.user;
@@ -104,4 +114,7 @@ module.exports = {
   getAllOrder,
   getOrderdetails,
   sendOrder,
+  getRes,
+  getUser,
+  getAllUser,
 };

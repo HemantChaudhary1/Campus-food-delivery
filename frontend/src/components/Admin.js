@@ -41,7 +41,7 @@ const Admin = () => {
         ...selectedItems,
         token,
       };
-      console.log("Data from frontend :", data);
+      //console.log("Data from frontend :", data);
 
       const response = await axios.post(
         "https://campus-food-delivery.onrender.com/api/deleteRes",
@@ -53,7 +53,7 @@ const Admin = () => {
         }
       );
 
-      console.log("response from backend :", response);
+      //console.log("response from backend :", response);
     } catch (error) {
       console.error("Error placing order:", error);
     }
@@ -77,7 +77,7 @@ const Admin = () => {
           },
         }
       );
-      console.log("response from backend", response);
+      // console.log("response from backend", response);
     } catch (error) {
       console.error("Error adding restaurant:", error);
     }
@@ -89,7 +89,9 @@ const Admin = () => {
       <table className="w-full mb-6 border-collapse bg-gray-800">
         <thead>
           <tr>
-            <th className="px-4 py-2 border border-gray-700">Restaurant Name</th>
+            <th className="px-4 py-2 border border-gray-700">
+              Restaurant Name
+            </th>
             <th className="px-4 py-2 border border-gray-700">Owner Name</th>
             <th className="px-4 py-2 border border-gray-700">Phone No</th>
             <th className="px-4 py-2 border border-gray-700">Actions</th>
