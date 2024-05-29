@@ -4,6 +4,7 @@ const Owner = require("../controllers/owner");
 const User = require("../controllers/user");
 const auth = require("../controllers/auth");
 const { check, validationResult } = require("express-validator");
+
 const express = require("express");
 const cors = require("cors");
 const {
@@ -59,6 +60,7 @@ router.get("/userOrder", verifyuser, User.getOrderdetails);
 router.get("/restInfo", verifyuser, User.getAllRes);
 router.get("/userInfo/:phone", User.getUser);
 router.get("/alluser", User.getAllUser);
+router.get("/getres/:phone", User.getRes);
 // any one can view
 // All Restaurant Data
 router.get("/getAllRes", User.getAllRes);

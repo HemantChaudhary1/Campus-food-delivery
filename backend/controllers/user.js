@@ -4,42 +4,73 @@ const orderData = require("../models/orderData");
 const User = require("../models/userRegistration");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-
+const redis = require("redis");
 async function getRes(req, res) {
+  const client = redis.createClient();
+  await client.connect();
   try {
-    const phone = req.user;
-    console.log("phone in backend", phone);
-    const restorentInfo = await Model.find({ ph: phone });
-    res.json(restorentInfo);
+    const { phone } = req.params;
+    const restaurent = await client.get(phone);
+    if (restaurent) {
+      res.json(JSON.parse(restaurent));
+    } else {
+      // console.log("phone in backend", phone);
+      const restorentInfo = await Model.find({ phone });
+      await client.setEx(phone, 1800, JSON.stringify(restorentInfo));
+      res.json(restorentInfo);
+    }
   } catch (error) {
-    res.status(404).json({ message: "restaurant not found" });
+    console.error("Error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  } finally {
+    await client.disconnect();
   }
 }
+
 async function getAllUser(req, res) {
   try {
     const Userinfo = await User.find({});
-    console.log("User details", Userinfo);
+    //console.log("User details", Userinfo);
     res.json(Userinfo);
   } catch (error) {
     res.status(404).json({ message: "restaurant not found" });
   }
 }
 async function getUser(req, res) {
+  const client = redis.createClient();
+  await client.connect();
   try {
     const { phone } = req.params;
-    console.log("phone of user", phone);
-    const Userinfo = await User.find({ phone });
-    console.log("User details", Userinfo);
-    res.json(Userinfo);
+    //console.log("phone of user", phone);
+    const user = await client.get(phone);
+    if (user) {
+      res.json(JSON.parse(user));
+    } else {
+      const Userinfo = await User.find({ phone });
+      await client.setEx(phone, 1800, JSON.stringify(Userinfo));
+      //console.log("User details", Userinfo);
+      res.json(Userinfo);
+    }
   } catch (error) {
     res.status(404).json({ message: "restaurant not found" });
+  } finally {
+    await client.disconnect();
   }
 }
 async function getAllRes(req, res) {
+  const client = redis.createClient();
+  await client.connect();
   try {
     // const { input } = req.query;
-    const data = await Model.find({});
-    res.json(data);
+    const key = "ami";
+    const data = await client.get(key);
+    if (data) {
+      res.json(JSON.parse(data));
+    } else {
+      const data = await Model.find({});
+      await client.setEx(key, 1800, JSON.stringify(data));
+      res.json(data);
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -74,12 +105,19 @@ async function sendOrder(req, res) {
   }
 }
 async function getAllDishes(req, res) {
+  const client = redis.createClient();
+  await client.connect();
   try {
     const { phone } = req.params;
     // const { input } = req.query;
-    const data = await Modeldish.find({ ph: phone });
-    console.log("HERE IS THE DISHES : ", JSON.stringify(data));
-    res.json(data);
+    const data = await client.get(phone);
+    if (data) {
+      res.json(JSON.parse(data));
+    } else {
+      const data = await Modeldish.find({ ph: phone });
+      await client.setEx(phone, 1800, JSON.stringify(data));
+      res.json(data);
+    }
   } catch (error) {
     console.log("ERROR WHILE SERVING DISHES : ", error);
     res.status(500).json({ message: error.message });
